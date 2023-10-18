@@ -14,7 +14,7 @@ function createWindow() {
     fullscreen: process.env.NODE_ENV === 'production',
     autoHideMenuBar: process.env.NODE_ENV === 'production',
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true,
       contextIsolation: true,
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },

@@ -4,7 +4,7 @@
   "author": "David Flegal",
   "version": "1.1.0",
   "description": "A GZDoom launcher for steam deck",
-  "main": "./.webpack/main/index.js",
+  "main": "./.webpack/main",
   "scripts": {
     "start": "NODE_ENV=development; electron-forge start",
     "package": "NODE_ENV=production; electron-forge package && electron-builder build --linux AppImage",
@@ -27,13 +27,12 @@
     "@babel/preset-env": "7.14.5",
     "@babel/preset-react": "7.14.5",
     "@babel/preset-typescript": "7.14.5",
-    "@electron-forge/cli": "6.0.0-beta.57",
-    "@electron-forge/maker-deb": "6.0.0-beta.57",
-    "@electron-forge/maker-rpm": "6.0.0-beta.57",
-    "@electron-forge/maker-squirrel": "6.0.0-beta.57",
-    "@electron-forge/maker-zip": "6.0.0-beta.57",
-    "@electron-forge/plugin-webpack": "6.0.0-beta.57",
-    "@marshallofsound/webpack-asset-relocator-loader": "0.5.0",
+    "@electron-forge/cli": "6.4.2",
+    "@electron-forge/maker-deb": "6.4.2",
+    "@electron-forge/maker-rpm": "6.4.2",
+    "@electron-forge/maker-squirrel": "6.4.2",
+    "@electron-forge/maker-zip": "6.4.2",
+    "@electron-forge/plugin-webpack": "6.4.2",
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "11.2.7",
     "@types/electron-devtools-installer": "2.2.0",
@@ -44,6 +43,7 @@
     "@types/styled-components": "5.1.10",
     "@typescript-eslint/eslint-plugin": "4.27.0",
     "@typescript-eslint/parser": "4.27.0",
+    "@vercel/webpack-asset-relocator-loader": "1.7.3",
     "await-exec": "^0.1.2",
     "babel-loader": "8.2.2",
     "bootstrap": "^5.2.0",
@@ -64,6 +64,7 @@
     "file-loader": "^6.2.0",
     "i18next": "^21.8.14",
     "jest": "27.0.4",
+    "node-loader": "^2.0.0",
     "npm-run-all": "4.1.5",
     "prettier": "2.3.1",
     "react-bootstrap": "^2.4.0",
@@ -87,9 +88,9 @@
         ]
       },
       "plugins": [
-        [
-          "@electron-forge/plugin-webpack",
-          {
+        {
+          "name": "@electron-forge/plugin-webpack",
+          "config": {
             "mainConfig": "./webpack/main.webpack.js",
             "renderer": {
               "config": "./webpack/renderer.webpack.js",
@@ -100,12 +101,13 @@
                   "name": "main_window",
                   "preload": {
                     "js": "./electron/bridge.ts"
-                  }
+                  },
+                  "nodeIntegration": true
                 }
               ]
             }
           }
-        ]
+        }
       ],
       "makers": [
         {
